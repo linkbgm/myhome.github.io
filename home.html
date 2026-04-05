@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>户型图</title>
+    <style>
+        /* 全局默认 */
+        * {
+            margin: 0;   /* 上下左右外边距为0 */
+            padding: 0;  /* 上下左右内边距为0 */
+            box-sizing: border-box;  /* 让盒子的宽高属性值指盒子大小，使改变内边距和边框的宽度后保持盒子本身大小不变 */
+        }
+        /* 居中设置后仅作用于子元素，不会作用于子子元素 */
+        .center{
+            display: flex;  /* 设置浮动，让盒子横着排、方便水平垂直居中、方便自动占满空间 */
+            flex-wrap: wrap;  /* 多余盒子自动换行 */
+            justify-content: center;  /* 盒子和文字水平居中 */
+            align-content: center;  /* 盒子垂直居中 */
+            align-items: center;  /* 文字垂直居中 */
+        }
+        body {
+            width: 1500px;  /* 必须定义宽度，否则当浏览器窗口过小时就显示缺失 */
+            height: 1700px;  /* 高度可不定义 */
+            min-height: 100vh;  /* 让body占满整个屏幕高度，，vh表示视口高度，100表示100%，
+            高度不设值时默认auto，由内容撑开，必须设置垂直居中才能生效 */
+            min-width: 100vw;  /* 让body占满整个屏幕宽度，，vw表示视口高度，100表示100%，
+            宽度不设值时默认100%，设值后，必须设置水平居中才能生效 */
+        }
+        /* 画板区域 */
+        .main{
+            background: wheat;
+            width: 1500px;
+            height: 1700px;
+        }
+        /* 房子区域 */
+        .house{
+            border: 1px none black;  /* 粗细、样式、颜色三样素必须定义才能显示边框，默认无边框，这里用none也表示无边框 */
+            width: 1070px;
+            height: 1370px;
+            position: relative;  /* 作为子盒子定位基准 */
+        }
+        /* 入户花园 */
+        .garden{
+            width: 540px;
+            height: 280px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 0;  /* 盒子到父盒子顶部距离 */
+            left: 530px;  /* 盒子到父盒子左侧距离 */
+            border: 1px dotted black;  /* 内层线 */
+            /*outline: 2px solid black;  !* 外层线 *!*/
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 280px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 主卧 */
+        .bedroom1{
+            width: 350px;
+            height: 400px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 810px;  /* 盒子到父盒子顶部距离 */
+            border: 1px dotted black;  /* 内层线 */
+            /*outline: 2px solid black;  !* 外层线 *!*/
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 400px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 次卧 */
+        .bedroom2{
+            width: 350px;
+            height: 350px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 280px;  /* 盒子到父盒子顶部距离 */
+            border: 1px dotted black;  /* 内层线 */
+            /*outline: 2px solid black;  !* 外层线 *!*/
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 350px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 主卫 */
+        .toilet1{
+            width: 350px;
+            height: 180px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 630px;  /* 盒子到父盒子顶部距离 */
+            border: 1px dotted black;  /* 内层线 */
+            /*outline: 2px solid black;  !* 外层线 *!*/
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 180px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 次卫 */
+        .toilet2{
+            width: 180px;
+            height: 350px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 280px;  /* 盒子到父盒子顶部距离 */
+            left: 350px;  /* 盒子到父盒子左侧距离 */
+            border: 1px dotted black;  /* 内层线 */
+            /*outline: 2px solid black;  !* 外层线 *!*/
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 350px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 厨房 */
+        .kitchen{
+            width: 210px;
+            height: 350px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 280px;  /* 盒子到父盒子顶部距离 */
+            left: 530px;  /* 盒子到父盒子左侧距离 */
+            border: 1px dotted black;  /* 内层线 */
+            /*outline: 2px solid black;  !* 外层线 *!*/
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 350px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 餐厅 */
+        .canteen{
+            width: 330px;
+            height: 350px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 280px;  /* 盒子到父盒子顶部距离 */
+            left: 740px;  /* 盒子到父盒子左侧距离 */
+            border: 1px dotted black;  /* 内层线 */
+            /*outline: 2px solid black;  !* 外层线 *!*/
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 350px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 长廊 */
+        .gallery{
+            width: 720px;
+            height: 160px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 630px;  /* 盒子到父盒子顶部距离 */
+            left: 350px;  /* 盒子到父盒子左侧距离 */
+            border: 1px dotted black;  /* 内层线 */
+            /*outline: 2px solid black;  !* 外层线 *!*/
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 160px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 衣房 */
+        .laundry{
+            width: 300px;
+            height: 350px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 790px;  /* 盒子到父盒子顶部距离 */
+            left: 350px;  /* 盒子到父盒子左侧距离 */
+            border: 2px solid black;  /* 内层线 */
+            outline: 2px solid black;  /* 外层线 */
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 350px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 客厅 */
+        .living{
+            width: 420px;
+            height: 350px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 790px;  /* 盒子到父盒子顶部距离 */
+            left: 650px;  /* 盒子到父盒子左侧距离 */
+            border: 2px solid black;  /* 内层线 */
+            outline: 2px solid black;  /* 外层线 */
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 350px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 阳台 */
+        .balcony{
+            width: 420px;
+            height: 230px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 1140px;  /* 盒子到父盒子顶部距离 */
+            left: 650px;  /* 盒子到父盒子左侧距离 */
+            border: 2px solid black;  /* 内层线 */
+            outline: 2px solid black;  /* 外层线 */
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 230px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+        /* 设备平台 */
+        .terrace{
+            width: 300px;
+            height: 230px;
+            position: absolute;  /* 以父盒子为定位基准 */
+            top: 1140px;  /* 盒子到父盒子顶部距离 */
+            left: 350px;  /* 盒子到父盒子左侧距离 */
+            border: 2px solid black;  /* 内层线 */
+            outline: 2px solid black;  /* 外层线 */
+            outline-offset: -5px;  /* 外层线为负值，向内缩进 */
+            text-align: center;  /* 文字水平居中 */
+            line-height: 230px;  /* 单行文字垂直居中 */
+            font-size:20px;
+        }
+    </style>
+</head>
+<body class="center">
+<div class="main center">
+    <div class="house">
+        <div class="garden">入户花园54*28</div>
+        <div class="bedroom1">主卧35*40</div>
+        <div class="bedroom2">次卧35*35</div>
+        <div class="toilet1">主卫35*18</div>
+        <div class="toilet2">次卫18*35</div>
+        <div class="kitchen">厨房21*35</div>
+        <div class="canteen">餐厅33*35</div>
+        <div class="gallery">长廊72*16</div>
+        <div class="laundry">衣房30*35</div>
+        <div class="living">客厅42*35</div>
+        <div class="balcony">阳台42*23</div>
+        <div class="terrace">设备平台30*23</div>
+    </div>
+</div>
+</body>
+</html>
